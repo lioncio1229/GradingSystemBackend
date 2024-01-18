@@ -14,12 +14,14 @@ namespace GradingSystemBackend.Services
     public class AuthServices : IAuthServices
     {
         private readonly IUnitOfWork _unityOfWork;
+        private readonly IHttpContextAccessor _contextAccessor;
         private readonly JWTSettings _jwtSettings;
 
-        public AuthServices(IUnitOfWork unityOfWork, IOptions<JWTSettings> options)
+        public AuthServices(IUnitOfWork unityOfWork, IOptions<JWTSettings> options, IHttpContextAccessor contextAccessor)
         {
             _unityOfWork = unityOfWork;
             _jwtSettings = options.Value;
+            _contextAccessor = contextAccessor;
         }
 
         public async Task<AuthResponse> RegisterUser(UserRegistrationDTO credentials)
@@ -57,6 +59,49 @@ namespace GradingSystemBackend.Services
             return new AuthResponse { Token = token };
         }
 
+        public async Task<DefaultResponse> Logout()
+        {
+            var context = _contextAccessor.HttpContext;
+
+            if (context != null)
+            {
+                var identity = context.User.Identity as ClaimsIdentity;
+
+                if (identity != null)
+                {
+                    var jtiClaim = identity.FindFirst(JwtRegisteredClaimNames.Jti);
+
+                    if (jtiClaim != null)
+                    {
+                        var revokedToken = jtiClaim.Value;
+                        await BlacklistToken(revokedToken);
+
+                        return new DefaultResponse
+                        {
+                            Message = "Successfully Logged Out",
+                            Success = true
+                        };
+                    }
+                }
+            }
+
+            throw new UnauthorizedException("Unauthorize");
+        }
+
+        public async Task BlacklistToken(string jti)
+        {
+            var token = await _unityOfWork.BlacklistedTokenRepository.Get(o => o.Jti == jti);
+            if(token == null)
+            {
+                await _unityOfWork.BlacklistedTokenRepository.AddAsync(new BlacklistedToken
+                {
+                    Jti = jti,
+                    Date = DateTime.Now.Date,
+                });
+                _unityOfWork.SaveChanges();
+            }
+        }
+
         public string GenerateToken(string email, List<Role> roles)
         {
             string jti = Guid.NewGuid().ToString();
@@ -83,6 +128,5 @@ namespace GradingSystemBackend.Services
 
             return finalToken;
         }
-
     }
 }

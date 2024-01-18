@@ -7,5 +7,6 @@ namespace GradingSystemBackend.Services
     {
         Task<AuthResponse> RegisterUser(UserRegistrationDTO user);
         Task<AuthResponse> LoginUser(UserLoginDTO credentials);
+        Task<DefaultResponse> Logout();
     }
 }

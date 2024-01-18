@@ -1,6 +1,7 @@
 using GradingSystemBackend;
 using GradingSystemBackend.Data;
 using GradingSystemBackend.Middleware;
+using GradingSystemBackend.Middlewares;
 using GradingSystemBackend.Repositories;
 using GradingSystemBackend.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -16,6 +17,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddDbContext<DataContext>(
     options => options.UseSqlServer(builder.Configuration.GetConnectionString("DbConnection")));
+
+builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(opt =>
@@ -88,6 +91,7 @@ app.Generate();
 app.UseSwagger();
 app.UseSwaggerUI();
 
+app.UseMiddleware<TokenValidationMiddleware>();
 app.UseMiddleware<ErrorHandlingMiddleware>();
 
 app.UseHttpsRedirection();

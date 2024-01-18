@@ -7,11 +7,23 @@ namespace GradingSystemBackend.Repositories
         private readonly DataContext _dataContext;
         private IUserRepository _userRepository;
         private IRoleRepository _roleRepository;
+        private IBlacklistedTokenRepository _blacklistRepository;
         private bool disposed = false;
 
         public UnitOfWork(DataContext dataContext)
         {
             _dataContext = dataContext;
+        }
+
+        public IBlacklistedTokenRepository BlacklistedTokenRepository
+        {
+            get
+            {
+                if (_blacklistRepository == null)
+                    _blacklistRepository = new BlacklistedTokenRepository(_dataContext);
+
+                return _blacklistRepository;
+            }
         }
 
         public IUserRepository UserRepository
