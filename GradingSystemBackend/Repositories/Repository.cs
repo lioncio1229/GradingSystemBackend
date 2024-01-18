@@ -1,5 +1,7 @@
 ﻿using GradingSystemBackend.Data;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System;
 using System.Linq.Expressions;
 
 namespace GradingSystemBackend.Repositories
@@ -60,10 +62,10 @@ namespace GradingSystemBackend.Repositories
             return query.Where(expression);
         }
 
-        public async Task<TEntity> UpdateAsync(TEntity entity)
+        public void UpdateAsync(TEntity entity)
         {
-            _dbSet.Update(entity);
-            return await Task.FromResult<TEntity>(entity);
+            _dbSet.Attach(entity);
+            _context.Entry(entity).State = EntityState.Modified;
         }
 
         private IQueryable<T> Include<T>(params Expression<Func<T, object>>[] paths) where T : class

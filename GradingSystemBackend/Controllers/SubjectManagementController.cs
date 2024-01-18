@@ -18,9 +18,17 @@ namespace GradingSystemBackend.Controllers
 
         [HttpPost]
         [ProducesResponseType<DefaultResponse>(StatusCodes.Status200OK)]
-        public async Task<IActionResult> AddSubject(NewSubjectDTO newSubject)
+        public async Task<IActionResult> AddSubject(SubjectDTO newSubject)
         {
             var response = await _subjectManagementServices.AddSubject(newSubject);
+            return Ok(response);
+        }
+
+        [HttpPut("{id}")]
+        [ProducesResponseType<DefaultResponse>(StatusCodes.Status200OK)]
+        public IActionResult UpdateSubject(Guid id, SubjectDTO subject)
+        {
+            var response = _subjectManagementServices.UpdateSubject(id, subject);
             return Ok(response);
         }
     }

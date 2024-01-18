@@ -1,4 +1,5 @@
-﻿using GradingSystemBackend.DTOs.Request;
+﻿using GradingSystemBackend.Configurations;
+using GradingSystemBackend.DTOs.Request;
 using GradingSystemBackend.DTOs.Response;
 using GradingSystemBackend.Exceptions;
 using GradingSystemBackend.Model;

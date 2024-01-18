@@ -5,6 +5,7 @@ namespace GradingSystemBackend.Services
 {
     public interface ISubjectManagementServices
     {
-        Task<DefaultResponse> AddSubject(NewSubjectDTO newSubject);
+        Task<DefaultResponse> AddSubject(SubjectDTO newSubject);
+        DefaultResponse UpdateSubject(Guid id, SubjectDTO subject);
     }
 }

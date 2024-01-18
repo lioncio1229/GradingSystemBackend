@@ -1,4 +1,4 @@
-using GradingSystemBackend;
+using GradingSystemBackend.Configurations;
 using GradingSystemBackend.Data;
 using GradingSystemBackend.Middleware;
 using GradingSystemBackend.Middlewares;
@@ -80,6 +80,8 @@ builder.Services.AddCors(corsOptions => corsOptions.AddDefaultPolicy(build =>
     build.AllowAnyMethod();
     build.AllowAnyHeader();
 }));
+
+builder.Services.AddAutoMapper(typeof(Program));
 
 builder.Services.AddScoped<IAuthServices, AuthServices>();
 builder.Services.AddScoped<ISubjectManagementServices, SubjectManagementServices>();

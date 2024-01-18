@@ -8,7 +8,7 @@ namespace GradingSystemBackend.Repositories
         IQueryable<TEntity> GetAll(params Expression<Func<TEntity, object>>[] includes);
         Task<List<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> predicate);
         Task<TEntity> AddAsync(TEntity entity);
-        Task<TEntity> UpdateAsync(TEntity entity);
+        void UpdateAsync(TEntity entity);
         void Delete(TEntity entity);
         Task<TEntity> Get(Expression<Func<TEntity, bool>> predicate, params Expression<Func<TEntity, object>>[] includes);
         IQueryable<TEntity> Query(Expression<Func<TEntity, bool>> expression);

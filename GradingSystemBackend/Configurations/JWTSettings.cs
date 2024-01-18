@@ -1,4 +1,4 @@
-﻿namespace GradingSystemBackend
+﻿namespace GradingSystemBackend.Configurations
 {
     public class JWTSettings
     {
