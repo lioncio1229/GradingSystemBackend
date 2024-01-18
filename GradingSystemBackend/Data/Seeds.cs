@@ -32,7 +32,38 @@ namespace GradingSystemBackend.Data
                     }
                 };
 
+                var strands = new List<Strand>
+                {
+                    new Strand
+                    {
+                        Name = "ABM",
+                        Description = "Accountancy, Business, and Management",
+                    },
+                    new Strand
+                    {
+                        Name = "HUMMS",
+                        Description = "Humanities and Social Sciences"
+                    },
+                    new Strand
+                    {
+                        Name = "GAS",
+                        Description = "General Academic Strand"
+                    },
+                    new Strand
+                    {
+                        Name = "ICT",
+                        Description = "Information and Communication Technology"
+                    },
+                    new Strand
+                    {
+                        Name = "H.E",
+                        Description = "Home Economics"
+                    }
+                };
+
                 dataContext.Roles.AddRange(roles);
+                dataContext.Strands.AddRange(strands);
+
                 dataContext.SaveChanges();
             }
         }

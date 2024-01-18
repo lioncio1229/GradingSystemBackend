@@ -5,6 +5,7 @@
         IUserRepository UserRepository { get; }
         IRoleRepository RoleRepository { get; }
         IBlacklistedTokenRepository BlacklistedTokenRepository { get; }
+        IStrandRepository StrandRepository { get; }
         void SaveChanges();
     }
 }
