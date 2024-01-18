@@ -11,58 +11,83 @@ namespace GradingSystemBackend.Data
                 var dataContext = scope.ServiceProvider.GetService<DataContext>();
 
                 if (dataContext == null)
-                {
                     return;
+
+                if (dataContext.Database.EnsureCreated()) 
+                    return;
+
+                if(dataContext.Roles.Count() == 0)
+                {
+                    var roles = new List<Role>
+                    {
+                        new Role
+                        {
+                            Name = "admin",
+                        },
+                        new Role
+                        {
+                            Name = "User"
+                        }
+                    };
+
+                    dataContext.Roles.AddRange(roles);
                 }
 
-                if(dataContext.Roles.Count() > 0)
+                if(dataContext.Strands.Count() == 0)
                 {
-                    return;
+                    var strands = new List<Strand>
+                    {
+                        new Strand
+                        {
+                            Name = "ABM",
+                            Description = "Accountancy, Business, and Management",
+                        },
+                        new Strand
+                        {
+                            Name = "HUMMS",
+                            Description = "Humanities and Social Sciences"
+                        },
+                        new Strand
+                        {
+                            Name = "GAS",
+                            Description = "General Academic Strand"
+                        },
+                        new Strand
+                        {
+                            Name = "ICT",
+                            Description = "Information and Communication Technology"
+                        },
+                        new Strand
+                        {
+                            Name = "H.E",
+                            Description = "Home Economics"
+                        }
+                    };
+
+                    dataContext.Strands.AddRange(strands);
                 }
 
-                var roles = new List<Role>
+                if (dataContext.YearLevels.Count() == 0)
                 {
-                    new Role
+                    var yearLevel = new List<YearLevel>
                     {
-                        Name = "admin",
-                    },
-                    new Role
-                    {
-                        Name = "User"
-                    }
-                };
+                        new YearLevel { Name = "Grade 11" },
+                        new YearLevel { Name = "Grade 12" }
+                    };
 
-                var strands = new List<Strand>
+                    dataContext.YearLevels.AddRange(yearLevel);
+                }
+
+                if(dataContext.Semesters.Count() == 0)
                 {
-                    new Strand
+                    var semester = new List<Semester>
                     {
-                        Name = "ABM",
-                        Description = "Accountancy, Business, and Management",
-                    },
-                    new Strand
-                    {
-                        Name = "HUMMS",
-                        Description = "Humanities and Social Sciences"
-                    },
-                    new Strand
-                    {
-                        Name = "GAS",
-                        Description = "General Academic Strand"
-                    },
-                    new Strand
-                    {
-                        Name = "ICT",
-                        Description = "Information and Communication Technology"
-                    },
-                    new Strand
-                    {
-                        Name = "H.E",
-                        Description = "Home Economics"
-                    }
-                };
+                        new Semester { Name = "1"},
+                        new Semester { Name = "2"}
+                    };
 
-                dataContext.Roles.AddRange(roles);
-                dataContext.Strands.AddRange(strands);
+                    dataContext.Semesters.AddRange(semester);
+                }
 
                 dataContext.SaveChanges();
             }
