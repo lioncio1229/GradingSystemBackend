@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using GradingSystemBackend.Model;
+using System.ComponentModel.DataAnnotations;
 
 namespace GradingSystemBackend.DTOs.Request
 {
@@ -13,5 +14,9 @@ namespace GradingSystemBackend.DTOs.Request
 
         [Required(ErrorMessage = "Password is required")]
         public string Password { get; set; }
+        [Required(ErrorMessage = "First Name is required")]
+        public string FirstName { get; set; }
+        public string LastName { get; set; } = string.Empty;
+        public ICollection<string> StrandCodes { get; set; } = new List<string>();
     }
 }

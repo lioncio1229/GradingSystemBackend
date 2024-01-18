@@ -15,7 +15,7 @@ namespace GradingSystemBackend.Data
                     return;
                 }
 
-                if (!dataContext.Database.EnsureCreated())
+                if(dataContext.Roles.Count() > 0)
                 {
                     return;
                 }

@@ -4,6 +4,7 @@ using GradingSystemBackend.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GradingSystemBackend.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20240118100915_AddStrandAndFaculty")]
+    partial class AddStrandAndFaculty
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -33,6 +36,29 @@ namespace GradingSystemBackend.Migrations
                     b.HasKey("Jti");
 
                     b.ToTable("BlacklistedTokens");
+                });
+
+            modelBuilder.Entity("GradingSystemBackend.Model.Faculty", b =>
+                {
+                    b.Property<Guid>("StrandId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("StrandId", "UserId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Faculties");
                 });
 
             modelBuilder.Entity("GradingSystemBackend.Model.Role", b =>
@@ -79,14 +105,6 @@ namespace GradingSystemBackend.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Password")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -115,19 +133,23 @@ namespace GradingSystemBackend.Migrations
                     b.ToTable("RoleUser");
                 });
 
-            modelBuilder.Entity("StrandUser", b =>
+            modelBuilder.Entity("GradingSystemBackend.Model.Faculty", b =>
                 {
-                    b.Property<Guid>("StrandsId")
-                        .HasColumnType("uniqueidentifier");
+                    b.HasOne("GradingSystemBackend.Model.Strand", "Strand")
+                        .WithMany()
+                        .HasForeignKey("StrandId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Property<Guid>("UsersId")
-                        .HasColumnType("uniqueidentifier");
+                    b.HasOne("GradingSystemBackend.Model.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.HasKey("StrandsId", "UsersId");
+                    b.Navigation("Strand");
 
-                    b.HasIndex("UsersId");
-
-                    b.ToTable("StrandUser");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("RoleUser", b =>
@@ -135,21 +157,6 @@ namespace GradingSystemBackend.Migrations
                     b.HasOne("GradingSystemBackend.Model.Role", null)
                         .WithMany()
                         .HasForeignKey("RolesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("GradingSystemBackend.Model.User", null)
-                        .WithMany()
-                        .HasForeignKey("UsersId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("StrandUser", b =>
-                {
-                    b.HasOne("GradingSystemBackend.Model.Strand", null)
-                        .WithMany()
-                        .HasForeignKey("StrandsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
