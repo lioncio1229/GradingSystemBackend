@@ -24,5 +24,14 @@ namespace GradingSystemBackend.Controllers
             var response = await _authServices.RegisterUser(user);
             return Ok(response);
         }
+
+        [HttpPost("login")]
+        [ProducesResponseType<AuthResponse>(StatusCodes.Status200OK)]
+        [ProducesResponseType<DefaultExceptionResponse>(StatusCodes.Status401Unauthorized)]
+        public async Task<IActionResult> Login(UserLoginDTO user)
+        {
+            var response = await _authServices.LoginUser(user);
+            return Ok(response);
+        }
     }
 }

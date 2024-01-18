@@ -22,14 +22,15 @@ namespace GradingSystemBackend.Services
             _jwtSettings = options.Value;
         }
 
-        public async Task<AuthResponse> RegisterUser(UserRegistrationDTO user)
+        public async Task<AuthResponse> RegisterUser(UserRegistrationDTO credentials)
         {
             var roles = _unityOfWork.RoleRepository.GetAll().ToList();
 
             await _unityOfWork.UserRepository.AddAsync(new Model.User
             {
-                Email = user.Email,
-                Password = user.Password,
+                Email = credentials.Email,
+                UserName = credentials.Username,
+                Password = credentials.Password,
                 Roles = new List<Role>
                 {
                     roles[0]
@@ -37,12 +38,23 @@ namespace GradingSystemBackend.Services
             });
             _unityOfWork.SaveChanges();
 
-            var token = GenerateToken(user.Email, new List<Role> { roles[0] });
+            var token = GenerateToken(credentials.Email, new List<Role> { roles[0] });
 
             return new AuthResponse
             {
                 Token = token
             };
+        }
+
+        public async Task<AuthResponse> LoginUser(UserLoginDTO credentials)
+        {
+            var user = await _unityOfWork.UserRepository.Get(o => o.UserName == credentials.UserName && o.Password == credentials.Password, o => o.Roles);
+
+            if(user == null)
+                throw new UnauthorizedException("Unauthorize");
+
+            var token = GenerateToken(user.Email, user.Roles.ToList());
+            return new AuthResponse { Token = token };
         }
 
         public string GenerateToken(string email, List<Role> roles)

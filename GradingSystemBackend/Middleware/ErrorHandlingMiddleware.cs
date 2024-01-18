@@ -42,17 +42,17 @@ namespace GradingSystemBackend.Middleware
                     context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
                     break;
 
-                //case nameof(ForbiddenException):
-                //    context.Response.StatusCode = (int)HttpStatusCode.Forbidden;
-                //    break;
+                case nameof(ForbiddenException):
+                    context.Response.StatusCode = (int)HttpStatusCode.Forbidden;
+                    break;
 
-                //case nameof(UnauthorizedException):
-                //    context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
-                //    break;
+                case nameof(UnauthorizedException):
+                    context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
+                    break;
 
-                //case nameof(NotFoundException):
-                //    context.Response.StatusCode = (int)HttpStatusCode.NotFound;
-                //    break;
+                case nameof(NotFoundException):
+                    context.Response.StatusCode = (int)HttpStatusCode.NotFound;
+                    break;
 
                 default:
                     context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
