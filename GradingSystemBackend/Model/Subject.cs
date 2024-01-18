@@ -8,8 +8,12 @@
         public string Code { get; set; }
         public string Type { get; set; }
         public User Faculty { get; set; }
+        public Guid UserId { get; set; }
         public Strand Strand { get; set; }
+        public Guid StrandId { get; set; }
         public YearLevel YearLevel { get; set; }
+        public Guid YearLevelId { get; set; }
         public Semester Semester { get; set; }
+        public Guid SemesterId { get; set; }
     }
 }

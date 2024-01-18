@@ -9,11 +9,23 @@ namespace GradingSystemBackend.Repositories
         private IRoleRepository _roleRepository;
         private IBlacklistedTokenRepository _blacklistRepository;
         private IStrandRepository _strandRepository;
+        private ISubjectRepository _subjectRepository;
         private bool disposed = false;
 
         public UnitOfWork(DataContext dataContext)
         {
             _dataContext = dataContext;
+        }
+
+        public ISubjectRepository SubjectRepository
+        {
+            get
+            {
+                if (_subjectRepository == null)
+                    _subjectRepository = new SubjectRepository(_dataContext);
+
+                return _subjectRepository;
+            }
         }
 
         public IStrandRepository StrandRepository

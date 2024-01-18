@@ -82,6 +82,7 @@ builder.Services.AddCors(corsOptions => corsOptions.AddDefaultPolicy(build =>
 }));
 
 builder.Services.AddScoped<IAuthServices, AuthServices>();
+builder.Services.AddScoped<ISubjectManagementServices, SubjectManagementServices>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 var app = builder.Build();
