@@ -1,5 +1,6 @@
 ﻿using GradingSystemBackend.DTOs.Request;
 using GradingSystemBackend.DTOs.Response;
+using GradingSystemBackend.Exceptions;
 using GradingSystemBackend.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,7 +18,8 @@ namespace GradingSystemBackend.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<ActionResult<AuthResponse>> Register(UserRegistrationDTO user)
+        [ProducesResponseType<AuthResponse>(StatusCodes.Status200OK)]
+        public async Task<IActionResult> Register(UserRegistrationDTO user)
         {
             var response = await _authServices.RegisterUser(user);
             return Ok(response);

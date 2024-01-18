@@ -1,5 +1,6 @@
 ﻿using GradingSystemBackend.DTOs.Request;
 using GradingSystemBackend.DTOs.Response;
+using GradingSystemBackend.Exceptions;
 using GradingSystemBackend.Model;
 using GradingSystemBackend.Repositories;
 using Microsoft.Extensions.Options;

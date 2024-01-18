@@ -2,14 +2,14 @@
 
 namespace GradingSystemBackend.Repositories
 {
-    public class UnityOfWork : IUnitOfWork, IDisposable
+    public class UnitOfWork : IUnitOfWork, IDisposable
     {
         private readonly DataContext _dataContext;
         private IUserRepository _userRepository;
         private IRoleRepository _roleRepository;
         private bool disposed = false;
 
-        public UnityOfWork(DataContext dataContext)
+        public UnitOfWork(DataContext dataContext)
         {
             _dataContext = dataContext;
         }

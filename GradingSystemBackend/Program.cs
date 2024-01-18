@@ -1,5 +1,6 @@
 using GradingSystemBackend;
 using GradingSystemBackend.Data;
+using GradingSystemBackend.Middleware;
 using GradingSystemBackend.Repositories;
 using GradingSystemBackend.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -78,7 +79,7 @@ builder.Services.AddCors(corsOptions => corsOptions.AddDefaultPolicy(build =>
 }));
 
 builder.Services.AddScoped<IAuthServices, AuthServices>();
-builder.Services.AddScoped<IUnitOfWork, UnityOfWork>();
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 var app = builder.Build();
 
@@ -86,6 +87,8 @@ app.Generate();
 
 app.UseSwagger();
 app.UseSwaggerUI();
+
+app.UseMiddleware<ErrorHandlingMiddleware>();
 
 app.UseHttpsRedirection();
 
