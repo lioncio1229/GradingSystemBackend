@@ -27,7 +27,6 @@ namespace GradingSystemBackend.Services
         public async Task<AuthResponse> RegisterUser(UserRegistrationDTO credentials)
         {
             var roles = _unityOfWork.RoleRepository.GetAll().ToList();
-            var strands = await _unityOfWork.StrandRepository.GetAllAsync(o => credentials.StrandCodes.Contains(o.Name));
 
             await _unityOfWork.UserRepository.AddAsync(new Model.User
             {
@@ -39,8 +38,7 @@ namespace GradingSystemBackend.Services
                 Roles = new List<Role>
                 {
                     roles[0]
-                },
-                Strands = strands.ToList()
+                }
             });
             _unityOfWork.SaveChanges();
 

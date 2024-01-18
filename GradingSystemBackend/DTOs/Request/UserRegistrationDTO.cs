@@ -17,6 +17,5 @@ namespace GradingSystemBackend.DTOs.Request
         [Required(ErrorMessage = "First Name is required")]
         public string FirstName { get; set; }
         public string LastName { get; set; } = string.Empty;
-        public ICollection<string> StrandCodes { get; set; } = new List<string>();
     }
 }
