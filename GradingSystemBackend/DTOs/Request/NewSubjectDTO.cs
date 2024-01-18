@@ -9,8 +9,8 @@ namespace GradingSystemBackend.DTOs.Request
         public string Code { get; set; }
         public string Type { get; set; }
         public Guid FacultyId { get; set; }
-        public Guid StrandId { get; set; }
-        public Guid YearLevelId { get; set; }
-        public Guid SemesterId { get; set; }
+        public string Strand { get; set; }
+        public string YearLevel { get; set; }
+        public string Semester { get; set; }
     }
 }

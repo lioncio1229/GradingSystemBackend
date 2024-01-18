@@ -1,8 +1,11 @@
-﻿namespace GradingSystemBackend.Model
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace GradingSystemBackend.Model
 {
     public class Semester
     {
-        public Guid Id { get; set; }
+        [Key]
+        public string Key { get; set; }
         public string Name { get; set; }
     }
 }

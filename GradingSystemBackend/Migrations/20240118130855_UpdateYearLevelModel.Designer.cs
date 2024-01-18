@@ -4,6 +4,7 @@ using GradingSystemBackend.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GradingSystemBackend.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20240118130855_UpdateYearLevelModel")]
+    partial class UpdateYearLevelModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -117,28 +120,34 @@ namespace GradingSystemBackend.Migrations
 
             modelBuilder.Entity("GradingSystemBackend.Model.Semester", b =>
                 {
-                    b.Property<string>("Key")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Key");
+                    b.HasKey("Id");
 
                     b.ToTable("Semesters");
                 });
 
             modelBuilder.Entity("GradingSystemBackend.Model.Strand", b =>
                 {
-                    b.Property<string>("Code")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Code");
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
 
                     b.ToTable("Strands");
                 });
@@ -236,13 +245,11 @@ namespace GradingSystemBackend.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("SemesterKey")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid>("SemesterId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("StrandCode")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid>("StrandId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Type")
                         .IsRequired()
@@ -257,9 +264,9 @@ namespace GradingSystemBackend.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("SemesterKey");
+                    b.HasIndex("SemesterId");
 
-                    b.HasIndex("StrandCode");
+                    b.HasIndex("StrandId");
 
                     b.HasIndex("UserId");
 
@@ -362,13 +369,13 @@ namespace GradingSystemBackend.Migrations
                 {
                     b.HasOne("GradingSystemBackend.Model.Semester", "Semester")
                         .WithMany()
-                        .HasForeignKey("SemesterKey")
+                        .HasForeignKey("SemesterId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("GradingSystemBackend.Model.Strand", "Strand")
                         .WithMany()
-                        .HasForeignKey("StrandCode")
+                        .HasForeignKey("StrandId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

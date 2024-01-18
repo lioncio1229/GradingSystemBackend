@@ -39,27 +39,27 @@ namespace GradingSystemBackend.Data
                     {
                         new Strand
                         {
-                            Name = "ABM",
+                            Code = "ABM",
                             Description = "Accountancy, Business, and Management",
                         },
                         new Strand
                         {
-                            Name = "HUMMS",
+                            Code = "HUMMS",
                             Description = "Humanities and Social Sciences"
                         },
                         new Strand
                         {
-                            Name = "GAS",
+                            Code = "GAS",
                             Description = "General Academic Strand"
                         },
                         new Strand
                         {
-                            Name = "ICT",
+                            Code = "ICT",
                             Description = "Information and Communication Technology"
                         },
                         new Strand
                         {
-                            Name = "H.E",
+                            Code = "H.E",
                             Description = "Home Economics"
                         }
                     };
@@ -71,8 +71,8 @@ namespace GradingSystemBackend.Data
                 {
                     var yearLevel = new List<YearLevel>
                     {
-                        new YearLevel { Name = "Grade 11" },
-                        new YearLevel { Name = "Grade 12" }
+                        new YearLevel { Key = "g11", Name = "Grade 11" },
+                        new YearLevel { Key = "g12", Name = "Grade 12" }
                     };
 
                     dataContext.YearLevels.AddRange(yearLevel);
@@ -82,8 +82,8 @@ namespace GradingSystemBackend.Data
                 {
                     var semester = new List<Semester>
                     {
-                        new Semester { Name = "1"},
-                        new Semester { Name = "2"}
+                        new Semester { Key ="sem1", Name = "Semester 1"},
+                        new Semester { Key = "sem2", Name = "Semester 2"}
                     };
 
                     dataContext.Semesters.AddRange(semester);

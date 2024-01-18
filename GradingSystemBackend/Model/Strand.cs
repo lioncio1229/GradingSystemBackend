@@ -1,9 +1,11 @@
-﻿namespace GradingSystemBackend.Model
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace GradingSystemBackend.Model
 {
     public class Strand
     {
-        public Guid Id { get; set; }
-        public string Name { get; set; }
+        [Key]
+        public string Code { get; set; }
         public string Description { get; set; }
     }
 }

@@ -22,9 +22,9 @@ namespace GradingSystemBackend.Services
                 Room = newSubject.Room,
                 Type = newSubject.Type,
                 UserId = newSubject.FacultyId,
-                SemesterId = newSubject.SemesterId,
-                StrandId = newSubject.StrandId,
-                YearLevelId = newSubject.YearLevelId,
+                SemesterKey = newSubject.Semester,
+                StrandCode = newSubject.Strand,
+                YearLevelKey = newSubject.YearLevel,
             });
 
             _unitOfWork.SaveChanges();
