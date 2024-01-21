@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using GradingSystemBackend.DTOs.Request;
+using GradingSystemBackend.DTOs.Response;
 using GradingSystemBackend.Model;
 
 namespace GradingSystemBackend.Configurations
@@ -9,6 +10,7 @@ namespace GradingSystemBackend.Configurations
         public MapperConfigurationProfile()
         {
             CreateMap<SubjectDTO, Subject>();
+            CreateMap<Subject, SubjectResponse>();
         }
     }
 }

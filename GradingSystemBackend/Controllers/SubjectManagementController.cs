@@ -31,5 +31,30 @@ namespace GradingSystemBackend.Controllers
             var response = _subjectManagementServices.UpdateSubject(id, subject);
             return Ok(response);
         }
+
+        [HttpGet]
+        [ProducesResponseType<IEnumerable<SubjectResponse>>(StatusCodes.Status200OK)]
+        public IActionResult GetSubjects() 
+        {
+            var response = _subjectManagementServices.GetAllSubjects();
+            return Ok(response);
+        }
+
+        [HttpGet("{id}")]
+        [ProducesResponseType<SubjectResponse>(StatusCodes.Status200OK)]
+        public IActionResult GetSubject(Guid id)
+        {
+            var response = _subjectManagementServices.GetSubject(id);
+            return Ok(response);
+        }
+
+        [HttpDelete("{id}")]
+        [ProducesResponseType<DefaultResponse>(StatusCodes.Status200OK)]
+        [ProducesResponseType<DefaultExceptionResponse>(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> DeleteSubject(Guid id) 
+        {
+            var response = await _subjectManagementServices.DeleteSubject(id);
+            return Ok(response);
+        }
     }
 }
