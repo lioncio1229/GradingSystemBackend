@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace GradingSystemBackend.Controllers
 {
     [ApiController]
-    [Route("api/v1/student")]
+    [Route("api/v1/students")]
     public class StudentController : ControllerBase
     {
         private readonly IStudentServices _studentServices;
