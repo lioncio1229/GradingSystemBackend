@@ -18,10 +18,28 @@ namespace GradingSystemBackend.Services
             _mapper = mapper;
         }
 
-        public async Task<DefaultResponse> AddSubject(SubjectDTO subject)
+        public async Task<DefaultResponse> AddSubject(SubjectDTO subjectDTO)
         {
-            await _unitOfWork.SubjectRepository.AddAsync(_mapper.Map<Subject>(subject));
+            var subject = await _unitOfWork.SubjectRepository.AddAsync(_mapper.Map<Subject>(subjectDTO));
 
+            var students = await _unitOfWork.StudentRepository.GetAllAsync(o => 
+            o.StrandCode == subjectDTO.StrandCode &&
+            o.YearLevelKey == subjectDTO.YearLevelKey &&
+            o.SemesterKey == subjectDTO.SemesterKey);
+
+            var grades = students.Select(o => new Grade
+            {
+                Q1 = 0,
+                Q2 = 0,
+                Q3 = 0,
+                Q4 = 0,
+                Average = 0,
+                Remarks = "",
+                SubjectId = subject.Id,
+                StudentId = o.Id
+            });
+
+            _unitOfWork.GradeRepository.AddRange(grades);
             _unitOfWork.SaveChanges();
 
             return new DefaultResponse
