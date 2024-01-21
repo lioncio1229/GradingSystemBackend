@@ -2,6 +2,7 @@
 {
     public class Grade
     {
+        public Guid Id { get; set; }
         public Guid SubjectId { get; set; }
         public Guid StudentId { get; set; }
         public int Q1 { get; set; }

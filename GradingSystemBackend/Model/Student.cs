@@ -25,7 +25,5 @@
 
         public Semester? Semester { get; set; }
         public string? SemesterKey { get; set; }
-
-        public ICollection<Subject> Subjects { get; set; }
     }
 }

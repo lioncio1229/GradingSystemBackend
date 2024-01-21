@@ -18,14 +18,22 @@ namespace GradingSystemBackend.Services
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
         private readonly IHttpContextAccessor _contextAccessor;
+        private readonly IStudentServices _studentServices;
         private readonly JWTSettings _jwtSettings;
 
-        public AuthServices(IUnitOfWork unitOfWork, IMapper mapper, IOptions<JWTSettings> options, IHttpContextAccessor contextAccessor)
+        public AuthServices(
+            IUnitOfWork unitOfWork, 
+            IMapper mapper, 
+            IOptions<JWTSettings> options, 
+            IHttpContextAccessor contextAccessor, 
+            IStudentServices studentServices)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _jwtSettings = options.Value;
             _contextAccessor = contextAccessor;
+            _studentServices = studentServices;
+
         }
 
         public async Task<AuthResponse> RegisterUser(UserRegistrationDTO credentials)
@@ -67,13 +75,10 @@ namespace GradingSystemBackend.Services
 
         public async Task<AuthResponse> RegisterStudent(StudentDTO studentDTO)
         {
+            var response = await _studentServices.AddStudent(studentDTO);
+
             var studentRole = await _unitOfWork.RoleRepository.Get(o => o.Name == "student");
-
-            await _unitOfWork.StudentRepository.AddAsync(_mapper.Map<Student>(studentDTO));
-            _unitOfWork.SaveChanges();
-
             var token = GenerateToken(studentDTO.Email, new List<Role> { studentRole });
-
             return new AuthResponse { Token = token };
         }
 

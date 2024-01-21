@@ -23,6 +23,11 @@ namespace GradingSystemBackend.Repositories
             return entity;
         }
 
+        public void AddRange(IEnumerable<TEntity> entities)
+        {
+            _dbSet.AddRange(entities);
+        }
+
         public void Delete(TEntity entity)
         {
             _dbSet.Remove(entity);
