@@ -10,11 +10,33 @@ namespace GradingSystemBackend.Repositories
         private IBlacklistedTokenRepository _blacklistRepository;
         private IStrandRepository _strandRepository;
         private ISubjectRepository _subjectRepository;
+        private IStudentRepository _studentRepository;
+        private IGradeRepository _gradeRepository;
         private bool disposed = false;
 
         public UnitOfWork(DataContext dataContext)
         {
             _dataContext = dataContext;
+        }
+
+        public IStudentRepository StudentRepository
+        {
+            get
+            {
+                if (_studentRepository == null)
+                    _studentRepository = new StudentRepository(_dataContext);
+                return _studentRepository;
+            }
+        }
+
+        public IGradeRepository GradeRepository
+        {
+            get
+            {
+                if (_gradeRepository == null)
+                    _gradeRepository = new GradeRepository(_dataContext);
+                return _gradeRepository;
+            }
         }
 
         public ISubjectRepository SubjectRepository
