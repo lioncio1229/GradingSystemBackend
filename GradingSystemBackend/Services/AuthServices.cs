@@ -1,4 +1,5 @@
-﻿using GradingSystemBackend.Configurations;
+﻿using AutoMapper;
+using GradingSystemBackend.Configurations;
 using GradingSystemBackend.DTOs.Request;
 using GradingSystemBackend.DTOs.Response;
 using GradingSystemBackend.Exceptions;
@@ -14,22 +15,24 @@ namespace GradingSystemBackend.Services
 {
     public class AuthServices : IAuthServices
     {
-        private readonly IUnitOfWork _unityOfWork;
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly IMapper _mapper;
         private readonly IHttpContextAccessor _contextAccessor;
         private readonly JWTSettings _jwtSettings;
 
-        public AuthServices(IUnitOfWork unityOfWork, IOptions<JWTSettings> options, IHttpContextAccessor contextAccessor)
+        public AuthServices(IUnitOfWork unitOfWork, IMapper mapper, IOptions<JWTSettings> options, IHttpContextAccessor contextAccessor)
         {
-            _unityOfWork = unityOfWork;
+            _unitOfWork = unitOfWork;
+            _mapper = mapper;
             _jwtSettings = options.Value;
             _contextAccessor = contextAccessor;
         }
 
         public async Task<AuthResponse> RegisterUser(UserRegistrationDTO credentials)
         {
-            var roles = _unityOfWork.RoleRepository.GetAll().ToList();
+            var roles = _unitOfWork.RoleRepository.GetAll().ToList();
 
-            await _unityOfWork.UserRepository.AddAsync(new Model.User
+            await _unitOfWork.UserRepository.AddAsync(new Model.User
             {
                 Email = credentials.Email,
                 UserName = credentials.Username,
@@ -41,7 +44,7 @@ namespace GradingSystemBackend.Services
                     roles[0]
                 }
             });
-            _unityOfWork.SaveChanges();
+            _unitOfWork.SaveChanges();
 
             var token = GenerateToken(credentials.Email, new List<Role> { roles[0] });
 
@@ -53,13 +56,37 @@ namespace GradingSystemBackend.Services
 
         public async Task<AuthResponse> LoginUser(UserLoginDTO credentials)
         {
-            var user = await _unityOfWork.UserRepository.Get(o => o.UserName == credentials.UserName && o.Password == credentials.Password, o => o.Roles);
+            var user = await _unitOfWork.UserRepository.Get(o => o.UserName == credentials.UserName && o.Password == credentials.Password, o => o.Roles);
 
-            if(user == null)
+            if (user == null)
                 throw new UnauthorizedException("Unauthorize");
 
             var token = GenerateToken(user.Email, user.Roles.ToList());
             return new AuthResponse { Token = token };
+        }
+
+        public async Task<AuthResponse> RegisterStudent(StudentDTO studentDTO)
+        {
+            var studentRole = await _unitOfWork.RoleRepository.Get(o => o.Name == "student");
+
+            await _unitOfWork.StudentRepository.AddAsync(_mapper.Map<Student>(studentDTO));
+            _unitOfWork.SaveChanges();
+
+            var token = GenerateToken(studentDTO.Email, new List<Role> { studentRole });
+
+            return new AuthResponse { Token = token };
+        }
+
+        public async Task<AuthResponse> LoginStudent(StudentLoginDTO studentLoginDTO)
+        {
+            var student = await _unitOfWork.StudentRepository.Get(o => o.LRN == studentLoginDTO.LRN);
+            if (student == null)
+                throw new NotFoundException("Student LRN not found");
+
+            var studentRole = await _unitOfWork.RoleRepository.Get(o => o.Name == "student");
+            var token = GenerateToken(student.Email, new List<Role> { studentRole });
+
+            return new AuthResponse {  Token= token };
         }
 
         public async Task<DefaultResponse> Logout()
@@ -93,15 +120,15 @@ namespace GradingSystemBackend.Services
 
         public async Task BlacklistToken(string jti)
         {
-            var token = await _unityOfWork.BlacklistedTokenRepository.Get(o => o.Jti == jti);
+            var token = await _unitOfWork.BlacklistedTokenRepository.Get(o => o.Jti == jti);
             if(token == null)
             {
-                await _unityOfWork.BlacklistedTokenRepository.AddAsync(new BlacklistedToken
+                await _unitOfWork.BlacklistedTokenRepository.AddAsync(new BlacklistedToken
                 {
                     Jti = jti,
                     Date = DateTime.Now.Date,
                 });
-                _unityOfWork.SaveChanges();
+                _unitOfWork.SaveChanges();
             }
         }
 

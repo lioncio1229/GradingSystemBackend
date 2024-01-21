@@ -7,13 +7,13 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace GradingSystemBackend.Controllers
 {
-    [Route("api/v1/auth")]
+    [Route("api/v1/userauth")]
     [ApiController]
-    public class AuthController : ControllerBase
+    public class UserAuthController : ControllerBase
     {
         private readonly IAuthServices _authServices;
 
-        public AuthController(IAuthServices authServices)
+        public UserAuthController(IAuthServices authServices)
         {
             _authServices = authServices;
         }
