@@ -4,6 +4,7 @@ using GradingSystemBackend.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GradingSystemBackend.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20240121102418_ReplaceFromToDatatype")]
+    partial class ReplaceFromToDatatype
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -81,24 +84,22 @@ namespace GradingSystemBackend.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("From")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<TimeSpan>("From")
+                        .HasColumnType("time");
 
                     b.Property<string>("LectureDate")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("SubjectId1")
+                    b.Property<Guid>("SubjectId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("To")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<TimeSpan>("To")
+                        .HasColumnType("time");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("SubjectId1");
+                    b.HasIndex("SubjectId");
 
                     b.ToTable("Lectures");
                 });
@@ -354,7 +355,7 @@ namespace GradingSystemBackend.Migrations
                 {
                     b.HasOne("GradingSystemBackend.Model.Subject", "Subject")
                         .WithMany()
-                        .HasForeignKey("SubjectId1")
+                        .HasForeignKey("SubjectId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

@@ -9,6 +9,7 @@
         ISubjectRepository SubjectRepository { get; }
         IStudentRepository StudentRepository { get; }
         IGradeRepository GradeRepository { get; }
+        ILectureRepository LectureRepository { get; }
         void SaveChanges();
     }
 }

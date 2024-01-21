@@ -7,6 +7,14 @@ namespace GradingSystemBackend.Data
     {
         public DataContext(DbContextOptions<DataContext> options) : base(options) {}
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Lecture>()
+                .HasOne(l => l.Subject)
+                .WithMany()
+                .HasForeignKey(l => l.SubjectId1);
+        }
+
         public DbSet<User> Users { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<BlacklistedToken> BlacklistedTokens { get; set; }
