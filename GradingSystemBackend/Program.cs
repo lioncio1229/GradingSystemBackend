@@ -83,9 +83,10 @@ builder.Services.AddCors(corsOptions => corsOptions.AddDefaultPolicy(build =>
 
 builder.Services.AddAutoMapper(typeof(Program));
 
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IAuthServices, AuthServices>();
 builder.Services.AddScoped<ISubjectManagementServices, SubjectManagementServices>();
-builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddScoped<IStudentServices, StudentServices>();
 
 var app = builder.Build();
 
