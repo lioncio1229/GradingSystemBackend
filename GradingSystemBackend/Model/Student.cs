@@ -19,5 +19,6 @@
         public string Strand { get; set; }
         public string YearLevel { get; set; }
         public string Semester { get; set; }
+        public ICollection<Grade> Grades { get; set; }
     }
 }

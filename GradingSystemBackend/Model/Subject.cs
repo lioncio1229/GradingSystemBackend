@@ -15,5 +15,6 @@
         public string YearLevelKey { get; set; }
         public Semester Semester { get; set; }
         public string SemesterKey { get; set; }
+        public ICollection<Student> Students { get; set; }
     }
 }
