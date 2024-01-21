@@ -87,6 +87,7 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IAuthServices, AuthServices>();
 builder.Services.AddScoped<ISubjectManagementServices, SubjectManagementServices>();
 builder.Services.AddScoped<IStudentServices, StudentServices>();
+builder.Services.AddScoped<IGradeManagementServices, GradeManagementServices>();
 
 var app = builder.Build();
 
