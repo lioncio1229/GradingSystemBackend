@@ -16,9 +16,16 @@
         public string Gender { get; set; }
         public string Status { get; set; }
         public string StudentType { get; set; }
-        public string Strand { get; set; }
-        public string YearLevel { get; set; }
-        public string Semester { get; set; }
+
+        public Strand? Strand { get; set; }
+        public string? StrandCode { get; set; }
+
+        public YearLevel? YearLevel { get; set; }
+        public string? YearLevelKey { get; set; }
+
+        public Semester? Semester { get; set; }
+        public string? SemesterKey { get; set; }
+
         public ICollection<Grade> Grades { get; set; }
     }
 }
