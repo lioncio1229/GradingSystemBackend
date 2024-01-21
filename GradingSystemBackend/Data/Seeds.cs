@@ -22,11 +22,19 @@ namespace GradingSystemBackend.Data
                     {
                         new Role
                         {
-                            Name = "admin",
+                            Name = "admin"
                         },
                         new Role
                         {
-                            Name = "User"
+                            Name = "faculty"
+                        },
+                        new Role
+                        {
+                            Name = "student"
+                        },
+                        new Role
+                        {
+                            Name = "user"
                         }
                     };
 
