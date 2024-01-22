@@ -11,6 +11,7 @@ namespace GradingSystemBackend.Repositories
         void AddRange(IEnumerable<TEntity> entities);
         void UpdateAsync(TEntity entity);
         void Delete(TEntity entity);
+        void DeleteRange(IEnumerable<TEntity> entities);
         Task<TEntity> Get(Expression<Func<TEntity, bool>> predicate, params Expression<Func<TEntity, object>>[] includes);
         IQueryable<TEntity> Query(Expression<Func<TEntity, bool>> expression);
         IQueryable<TEntity> Query(Expression<Func<TEntity, bool>> expression, params Expression<Func<TEntity, object>>[] includes);

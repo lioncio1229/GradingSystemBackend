@@ -33,6 +33,11 @@ namespace GradingSystemBackend.Repositories
             _dbSet.Remove(entity);
         }
 
+        public void DeleteRange(IEnumerable<TEntity> entities)
+        {
+            _dbSet.RemoveRange(entities);
+        }
+
         public Task<TEntity> Get(Expression<Func<TEntity, bool>> predicate, params Expression<Func<TEntity, object>>[] includes)
         {
             var query = Include<TEntity>(includes);

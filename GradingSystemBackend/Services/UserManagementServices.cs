@@ -60,7 +60,7 @@ namespace GradingSystemBackend.Services
 
         public async Task<DefaultResponse> UpdateUser(Guid id, UserDTO userDTO)
         {
-            var user = await _userRepository.Get(o => o.Id == id);
+            var user = await _userRepository.Get(o => o.Id == id, o => o.Roles);
             if (user == null)
                 throw new NotFoundException("User not found");
 
