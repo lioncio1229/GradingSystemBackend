@@ -70,6 +70,15 @@ namespace GradingSystemBackend.Services
                 .GetAll(o => o.Faculty, o => o.YearLevel, o => o.Semester, o => o.Strand).ToList());
         }
 
+        public IEnumerable<SubjectResponse> GetAllSubjects(FilterDTO filterDTO)
+        {
+            var subjects = _unitOfWork.SubjectRepository.Query(o => o.YearLevelKey == filterDTO.YearLevel
+            && o.SemesterKey == filterDTO.Semester
+            && o.StrandCode == filterDTO.Strand, c => c.YearLevel, c => c.Semester, c => c.Strand, c => c.Faculty).ToList();
+
+            return _mapper.Map<IEnumerable<SubjectResponse>>(subjects);
+        }
+
         public async Task<SubjectResponse> GetSubject(Guid id)
         {
             var subject = await _unitOfWork.SubjectRepository

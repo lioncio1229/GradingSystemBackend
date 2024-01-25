@@ -34,9 +34,9 @@ namespace GradingSystemBackend.Controllers
 
         [HttpGet]
         [ProducesResponseType<IEnumerable<SubjectResponse>>(StatusCodes.Status200OK)]
-        public IActionResult GetSubjects() 
+        public IActionResult GetSubjects([FromQuery] FilterDTO filterDTO) 
         {
-            var response = _subjectManagementServices.GetAllSubjects();
+            var response = _subjectManagementServices.GetAllSubjects(filterDTO);
             return Ok(response);
         }
 

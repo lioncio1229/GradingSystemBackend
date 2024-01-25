@@ -8,6 +8,7 @@ namespace GradingSystemBackend.Services
         Task<DefaultResponse> AddSubject(SubjectDTO newSubject);
         DefaultResponse UpdateSubject(Guid id, SubjectDTO subject);
         IEnumerable<SubjectResponse> GetAllSubjects();
+        IEnumerable<SubjectResponse> GetAllSubjects(FilterDTO filterDTO);
         Task<SubjectResponse> GetSubject(Guid id);
         Task<DefaultResponse> DeleteSubject(Guid id);
     }
