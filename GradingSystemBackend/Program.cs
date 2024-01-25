@@ -90,6 +90,7 @@ builder.Services.AddScoped<IStudentServices, StudentServices>();
 builder.Services.AddScoped<IGradeManagementServices, GradeManagementServices>();
 builder.Services.AddScoped<ILectureManagementServices, LectureManagementServices>();
 builder.Services.AddScoped<IUserManagementServices, UserManagementServices>();
+builder.Services.AddScoped<IStrandManagementServices, StrandManagementServices>();
 
 var app = builder.Build();
 
