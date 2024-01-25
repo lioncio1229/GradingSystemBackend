@@ -27,6 +27,12 @@ namespace GradingSystemBackend.Configurations
             CreateMap<User, UserResponse>();
 
             CreateMap<Role, RoleResponse>();
+
+            CreateMap<Semester, SemesterResponse>();
+            CreateMap<Strand, StrandResponse>();
+            CreateMap<YearLevel, YearLevelResponse>();
+
+            CreateMap<User, FacultyResponse>();
         }
     }
 }
