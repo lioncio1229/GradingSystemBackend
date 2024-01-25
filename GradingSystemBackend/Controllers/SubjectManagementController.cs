@@ -32,6 +32,14 @@ namespace GradingSystemBackend.Controllers
             return Ok(response);
         }
 
+        [HttpGet("all")]
+        [ProducesResponseType<IEnumerable<SubjectResponse>>(StatusCodes.Status200OK)]
+        public IActionResult GetSubjects()
+        {
+            var response = _subjectManagementServices.GetAllSubjects();
+            return Ok(response);
+        }
+
         [HttpGet]
         [ProducesResponseType<IEnumerable<SubjectResponse>>(StatusCodes.Status200OK)]
         public IActionResult GetSubjects([FromQuery] FilterDTO filterDTO) 

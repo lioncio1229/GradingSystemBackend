@@ -34,9 +34,13 @@ namespace GradingSystemBackend.Controllers
             return Ok(response);
         }
 
-        [HttpGet]
+        [HttpGet("all")]
         [ProducesResponseType<IEnumerator<StudentResponse>>(StatusCodes.Status200OK)]
         public IActionResult GetStudents() {  return Ok(_studentServices.GetStudents()); }
+
+        [HttpGet]
+        [ProducesResponseType<IEnumerator<StudentResponse>>(StatusCodes.Status200OK)]
+        public IActionResult GetStudents([FromQuery] FilterDTO filterDTO) { return Ok(_studentServices.GetStudents(filterDTO)); }
 
         [HttpGet("{id}")]
         [ProducesResponseType<StudentResponse>(StatusCodes.Status200OK)]

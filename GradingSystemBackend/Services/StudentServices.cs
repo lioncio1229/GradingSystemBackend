@@ -56,6 +56,15 @@ namespace GradingSystemBackend.Services
             return _mapper.Map<IEnumerable<StudentResponse>>(_studentRepository.GetAll(o => o.Strand, o => o.YearLevel, o => o.Semester));
         }
 
+        public IEnumerable<StudentResponse> GetStudents(FilterDTO filterDTO)
+        {
+            var students = _studentRepository.Query(o => o.StrandCode == filterDTO.Strand
+            && o.SemesterKey == filterDTO.Semester && o.YearLevelKey == filterDTO.YearLevel,
+            c => c.YearLevel, c => c.Strand, c => c.Semester).ToList();
+
+            return _mapper.Map<IEnumerable<StudentResponse>>(students);
+        }
+
         public async Task<StudentResponse> GetStudent(Guid id)
         {
             return _mapper.Map<StudentResponse>(await _studentRepository.Get(o => o.Id == id, o => o.Strand, o => o.YearLevel, o => o.Semester));

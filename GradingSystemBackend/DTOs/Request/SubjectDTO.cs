@@ -1,5 +1,4 @@
-﻿using GradingSystemBackend.Model;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
 namespace GradingSystemBackend.DTOs.Request
 {

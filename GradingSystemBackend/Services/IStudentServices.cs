@@ -9,6 +9,8 @@ namespace GradingSystemBackend.Services
 
         IEnumerable<StudentResponse> GetStudents();
 
+        IEnumerable<StudentResponse> GetStudents(FilterDTO filterDTO);
+
         Task<StudentResponse> GetStudent(Guid id);
 
         Task<DefaultResponse> UpdateStudent(Guid id, StudentDTO studentDTO);

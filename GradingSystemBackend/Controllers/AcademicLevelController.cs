@@ -30,7 +30,7 @@ namespace GradingSystemBackend.Controllers
             return Ok(strands);
         }
 
-        [HttpGet("yearLevels")]
+        [HttpGet("yearlevels")]
         [ProducesResponseType<IEnumerable<YearLevelResponse>>(StatusCodes.Status200OK)]
         public IActionResult GetYearLevelList()
         {
