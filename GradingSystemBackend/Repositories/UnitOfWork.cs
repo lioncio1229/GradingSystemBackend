@@ -13,11 +13,22 @@ namespace GradingSystemBackend.Repositories
         private IStudentRepository _studentRepository;
         private IGradeRepository _gradeRepository;
         private ILectureRepository _lectureRepository;
+        private IYearLevelRepository _yearLevelRepository;
         private bool disposed = false;
 
         public UnitOfWork(DataContext dataContext)
         {
             _dataContext = dataContext;
+        }
+
+        public IYearLevelRepository YearLevelRepository
+        {
+            get
+            {
+                if (_yearLevelRepository == null)
+                    _yearLevelRepository = new YearLevelRepository(_dataContext);
+                return _yearLevelRepository;
+            }
         }
 
         public ILectureRepository LectureRepository
