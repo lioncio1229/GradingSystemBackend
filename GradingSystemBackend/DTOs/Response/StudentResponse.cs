@@ -16,8 +16,8 @@
         public string Gender { get; set; }
         public string Status { get; set; }
         public string StudentType { get; set; }
-        public string Strand { get; set; }
-        public string YearLevel { get; set; }
-        public string Semester { get; set; }
+        public StrandResponse Strand { get; set; }
+        public YearLevelResponse YearLevel { get; set; }
+        public SemesterResponse Semester { get; set; }
     }
 }

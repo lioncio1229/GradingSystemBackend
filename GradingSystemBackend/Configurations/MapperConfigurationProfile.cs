@@ -13,10 +13,7 @@ namespace GradingSystemBackend.Configurations
             CreateMap<Subject, SubjectResponse>();
 
             CreateMap<StudentDTO, Student>();
-            CreateMap<Student, StudentResponse>()
-                .ForMember(d => d.Strand, o => o.MapFrom(s => s.Strand != null ? s.Strand.Description : ""))
-                .ForMember(d => d.YearLevel, o => o.MapFrom(s => s.YearLevel != null ? s.YearLevel.Name : ""))
-                .ForMember(d => d.Semester, o => o.MapFrom(s => s.Semester != null ? s.Semester.Name : ""));
+            CreateMap<Student, StudentResponse>();
 
             CreateMap<GradesUpdateDTO, Grade>();
 
