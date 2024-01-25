@@ -11,6 +11,7 @@
         IGradeRepository GradeRepository { get; }
         ILectureRepository LectureRepository { get; }
         IYearLevelRepository YearLevelRepository { get; }
+        ISemesterRepository SemesterRepository { get; }
         void SaveChanges();
     }
 }

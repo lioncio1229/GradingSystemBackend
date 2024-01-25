@@ -1,4 +1,5 @@
 ﻿using GradingSystemBackend.DTOs.Response;
+using GradingSystemBackend.Repositories;
 using GradingSystemBackend.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,11 +11,15 @@ namespace GradingSystemBackend.Controllers
     {
         private readonly IStrandManagementServices _strandManagementServices;
         private readonly IYearLevelManagementServices _yearLevelManagementServices;
+        private readonly ISemesterManagementServices _semesterManagementServices;
 
-        public AcademicLevelController(IStrandManagementServices strandManagementServices, IYearLevelManagementServices yearLevelManagementServices)
+        public AcademicLevelController(IStrandManagementServices strandManagementServices,
+            IYearLevelManagementServices yearLevelManagementServices, 
+            ISemesterManagementServices semesterManagementServices)
         {
             _strandManagementServices = strandManagementServices;
             _yearLevelManagementServices = yearLevelManagementServices;
+            _semesterManagementServices = semesterManagementServices;
         }
 
         [HttpGet("strands")]
@@ -31,6 +36,14 @@ namespace GradingSystemBackend.Controllers
         {
             var yearLevelList = _yearLevelManagementServices.GetAllYearLevel();
             return Ok(yearLevelList);
+        }
+
+        [HttpGet("semesters")]
+        [ProducesResponseType<IEnumerable<SemesterResponse>>(StatusCodes.Status200OK)]
+        public IActionResult GetSemesters() 
+        {
+            var semesters = _semesterManagementServices.GetAllSemester();
+            return Ok(semesters);
         }
     }
 }

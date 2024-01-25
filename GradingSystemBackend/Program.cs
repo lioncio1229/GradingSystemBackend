@@ -92,6 +92,7 @@ builder.Services.AddScoped<ILectureManagementServices, LectureManagementServices
 builder.Services.AddScoped<IUserManagementServices, UserManagementServices>();
 builder.Services.AddScoped<IStrandManagementServices, StrandManagementServices>();
 builder.Services.AddScoped<IYearLevelManagementServices, YearLevelManagementServices>();
+builder.Services.AddScoped<ISemesterManagementServices, SemesterManagementServices>();
 
 var app = builder.Build();
 
