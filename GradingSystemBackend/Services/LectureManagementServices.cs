@@ -34,7 +34,7 @@ namespace GradingSystemBackend.Services
 
         public IEnumerable<LectureResponse> GetAllLecture()
         {
-            return _mapper.Map<IEnumerable<LectureResponse>>(_lectureRepository.GetAll(o => o.Subject, 
+            return _mapper.Map<IEnumerable<LectureResponse>>(_lectureRepository.GetAll(o => o.Subject, o => o.Subject.Faculty,
                 o => o.Subject.YearLevel, o => o.Subject.Strand, o => o.Subject.Semester));
         }
 
@@ -42,14 +42,14 @@ namespace GradingSystemBackend.Services
         {
             var lectures = _lectureRepository.Query(o => o.Subject.YearLevelKey == filterDTO.YearLevel
             && o.Subject.SemesterKey == filterDTO.Semester && o.Subject.StrandCode == filterDTO.Strand, 
-            o => o.Subject, o => o.Subject.YearLevel, o => o.Subject.Strand, o => o.Subject.Semester);
+            o => o.Subject, o => o.Subject.Faculty, o => o.Subject.YearLevel, o => o.Subject.Strand, o => o.Subject.Semester);
 
             return _mapper.Map<IEnumerable<LectureResponse>>(lectures);
         }
 
         public async Task<LectureResponse> GetLecture(Guid id)
         {
-            return _mapper.Map<LectureResponse>(await _lectureRepository.Get(o => o.Id == id, o => o.Subject, 
+            return _mapper.Map<LectureResponse>(await _lectureRepository.Get(o => o.Id == id, o => o.Subject, o => o.Subject.Faculty,
                 o => o.Subject.YearLevel, o => o.Subject.Strand, o => o.Subject.Semester));
         }
 
