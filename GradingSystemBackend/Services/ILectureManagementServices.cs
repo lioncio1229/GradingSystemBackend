@@ -9,6 +9,8 @@ namespace GradingSystemBackend.Services
 
         IEnumerable<LectureResponse> GetAllLecture();
 
+        IEnumerable<LectureResponse> GetAllLecture(FilterDTO filterDTO);
+
         Task<LectureResponse> GetLecture(Guid id);
 
         Task<DefaultResponse> UpdateLecture(Guid id, LectureDTO lectureDTO);

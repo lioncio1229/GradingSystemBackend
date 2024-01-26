@@ -16,11 +16,18 @@ namespace GradingSystemBackend.Controllers
             _lectureServices = lectureServices;
         }
 
-        [HttpGet]
+        [HttpGet("all")]
         [ProducesResponseType<IEnumerable<LectureResponse>>(StatusCodes.Status200OK)]
         public IActionResult GetAllLecture()
         {
             return Ok(_lectureServices.GetAllLecture());
+        }
+
+        [HttpGet]
+        [ProducesResponseType<IEnumerable<LectureResponse>>(StatusCodes.Status200OK)]
+        public IActionResult GetAllLecture([FromQuery] FilterDTO filterDTO)
+        {
+            return Ok(_lectureServices.GetAllLecture(filterDTO));
         }
 
         [HttpGet("{id}")]

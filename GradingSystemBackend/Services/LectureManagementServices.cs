@@ -34,12 +34,23 @@ namespace GradingSystemBackend.Services
 
         public IEnumerable<LectureResponse> GetAllLecture()
         {
-            return _mapper.Map<IEnumerable<LectureResponse>>(_lectureRepository.GetAll(o => o.Subject));
+            return _mapper.Map<IEnumerable<LectureResponse>>(_lectureRepository.GetAll(o => o.Subject, 
+                o => o.Subject.YearLevel, o => o.Subject.Strand, o => o.Subject.Semester));
+        }
+
+        public IEnumerable<LectureResponse> GetAllLecture(FilterDTO filterDTO)
+        {
+            var lectures = _lectureRepository.Query(o => o.Subject.YearLevelKey == filterDTO.YearLevel
+            && o.Subject.SemesterKey == filterDTO.Semester && o.Subject.StrandCode == filterDTO.Strand, 
+            o => o.Subject, o => o.Subject.YearLevel, o => o.Subject.Strand, o => o.Subject.Semester);
+
+            return _mapper.Map<IEnumerable<LectureResponse>>(lectures);
         }
 
         public async Task<LectureResponse> GetLecture(Guid id)
         {
-            return _mapper.Map<LectureResponse>(await _lectureRepository.Get(o => o.Id == id, o => o.Subject));
+            return _mapper.Map<LectureResponse>(await _lectureRepository.Get(o => o.Id == id, o => o.Subject, 
+                o => o.Subject.YearLevel, o => o.Subject.Strand, o => o.Subject.Semester));
         }
 
         public async Task<DefaultResponse> UpdateLecture(Guid id, LectureDTO lectureDTO)
@@ -58,7 +69,7 @@ namespace GradingSystemBackend.Services
 
             return new DefaultResponse
             {
-                Message = "Lecture udpated",
+                Message = "Lecture updated",
                 Success = true
             };
         }
