@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace GradingSystemBackend.Controllers
 {
-    [Authorize(Roles = "admin")]
     [ApiController]
     [Route("api/v1/subjects")]
     public class SubjectManagementController : ControllerBase
@@ -18,6 +17,7 @@ namespace GradingSystemBackend.Controllers
             _subjectManagementServices = subjectManagementServices;
         }
 
+        [Authorize(Roles = "admin")]
         [HttpPost]
         [ProducesResponseType<DefaultResponse>(StatusCodes.Status200OK)]
         public async Task<IActionResult> AddSubject(SubjectDTO newSubject)
@@ -26,6 +26,7 @@ namespace GradingSystemBackend.Controllers
             return Ok(response);
         }
 
+        [Authorize(Roles = "admin")]
         [HttpPut("{id}")]
         [ProducesResponseType<DefaultResponse>(StatusCodes.Status200OK)]
         public IActionResult UpdateSubject(Guid id, SubjectDTO subject)
@@ -38,7 +39,7 @@ namespace GradingSystemBackend.Controllers
         [ProducesResponseType<IEnumerable<SubjectResponse>>(StatusCodes.Status200OK)]
         public IActionResult GetSubjects()
         {
-            var response = _subjectManagementServices.GetAllSubjects();
+            var response = _subjectManagementServices.GetSubjects();
             return Ok(response);
         }
 
@@ -46,7 +47,15 @@ namespace GradingSystemBackend.Controllers
         [ProducesResponseType<IEnumerable<SubjectResponse>>(StatusCodes.Status200OK)]
         public IActionResult GetSubjects([FromQuery] FilterDTO filterDTO) 
         {
-            var response = _subjectManagementServices.GetAllSubjects(filterDTO);
+            var response = _subjectManagementServices.GetSubjects(filterDTO);
+            return Ok(response);
+        }
+
+        [HttpGet("faculty")]
+        [ProducesResponseType<IEnumerable<SubjectResponse>>(StatusCodes.Status200OK)]
+        public IActionResult GetSubjects(Guid userId)
+        {
+            var response = _subjectManagementServices.GetSubjects(userId);
             return Ok(response);
         }
 
@@ -58,6 +67,7 @@ namespace GradingSystemBackend.Controllers
             return Ok(response);
         }
 
+        [Authorize(Roles = "admin")]
         [HttpDelete("{id}")]
         [ProducesResponseType<DefaultResponse>(StatusCodes.Status200OK)]
         [ProducesResponseType<DefaultExceptionResponse>(StatusCodes.Status404NotFound)]

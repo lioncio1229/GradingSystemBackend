@@ -64,19 +64,26 @@ namespace GradingSystemBackend.Services
             };
         }
 
-        public IEnumerable<SubjectResponse> GetAllSubjects()
+        public IEnumerable<SubjectResponse> GetSubjects()
         {
             return _mapper.Map<IEnumerable<SubjectResponse>>(_unitOfWork.SubjectRepository
                 .GetAll(o => o.Faculty, o => o.YearLevel, o => o.Semester, o => o.Strand).ToList());
         }
 
-        public IEnumerable<SubjectResponse> GetAllSubjects(FilterDTO filterDTO)
+        public IEnumerable<SubjectResponse> GetSubjects(FilterDTO filterDTO)
         {
             var subjects = _unitOfWork.SubjectRepository.Query(o => o.YearLevelKey == filterDTO.YearLevel
             && o.SemesterKey == filterDTO.Semester
             && o.StrandCode == filterDTO.Strand, c => c.YearLevel, c => c.Semester, c => c.Strand, c => c.Faculty).ToList();
 
             return _mapper.Map<IEnumerable<SubjectResponse>>(subjects);
+        }
+
+        public IEnumerable<SubjectResponse> GetSubjects(Guid userId)
+        {
+            var subjects = _unitOfWork.SubjectRepository.Query(o => o.UserId == userId, c => c.YearLevel, c => c.Semester, c => c.Strand);
+
+            return _mapper.Map<IEnumerable<SubjectResponse>>(subjects.ToList());
         }
 
         public async Task<SubjectResponse> GetSubject(Guid id)

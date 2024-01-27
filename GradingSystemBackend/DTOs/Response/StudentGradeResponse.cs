@@ -1,6 +1,4 @@
-﻿using GradingSystemBackend.Model;
-
-namespace GradingSystemBackend.DTOs.Response
+﻿namespace GradingSystemBackend.DTOs.Response
 {
     public class StudentGradeResponse
     {
