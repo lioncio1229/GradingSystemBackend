@@ -22,6 +22,7 @@ namespace GradingSystemBackend.Configurations
 
             CreateMap<UserDTO, User>();
             CreateMap<User, UserResponse>();
+            CreateMap<User, UserData>();
 
             CreateMap<Role, RoleResponse>();
 

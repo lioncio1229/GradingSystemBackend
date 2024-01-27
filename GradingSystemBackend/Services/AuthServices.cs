@@ -7,6 +7,7 @@ using GradingSystemBackend.Model;
 using GradingSystemBackend.Repositories;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -40,7 +41,7 @@ namespace GradingSystemBackend.Services
         {
             var roles = _unitOfWork.RoleRepository.GetAll().ToList();
 
-            await _unitOfWork.UserRepository.AddAsync(new Model.User
+            var user = await _unitOfWork.UserRepository.AddAsync(new Model.User
             {
                 Email = credentials.Email,
                 UserName = credentials.Username,
@@ -54,7 +55,8 @@ namespace GradingSystemBackend.Services
             });
             _unitOfWork.SaveChanges();
 
-            var token = GenerateToken(credentials.Email, new List<Role> { roles[0] });
+            var userData = _mapper.Map<UserData>(user);
+            var token = GenerateToken(userData, new List<Role> { roles[0] });
 
             return new AuthResponse
             {
@@ -69,7 +71,8 @@ namespace GradingSystemBackend.Services
             if (user == null)
                 throw new UnauthorizedException("Unauthorize");
 
-            var token = GenerateToken(user.Email, user.Roles.ToList());
+            var userData = _mapper.Map<UserData>(user);
+            var token = GenerateToken(userData, user.Roles.ToList());
             return new AuthResponse { Token = token };
         }
 
@@ -78,7 +81,14 @@ namespace GradingSystemBackend.Services
             var response = await _studentServices.AddStudent(studentDTO);
 
             var studentRole = await _unitOfWork.RoleRepository.Get(o => o.Name == "student");
-            var token = GenerateToken(studentDTO.Email, new List<Role> { studentRole });
+            var userData = new UserData
+            {
+                Email = studentDTO.Email,
+                UserName = "",
+                FirstName = studentDTO.FirstName,
+                LastName = studentDTO.LastName,
+            };
+            var token = GenerateToken(userData, new List<Role> { studentRole });
             return new AuthResponse { Token = token };
         }
 
@@ -88,8 +98,15 @@ namespace GradingSystemBackend.Services
             if (student == null)
                 throw new NotFoundException("Student LRN not found");
 
+            var userData = new UserData
+            {
+                Email = student.Email,
+                UserName = "",
+                FirstName = student.FirstName,
+                LastName = student.LastName,
+            };
             var studentRole = await _unitOfWork.RoleRepository.Get(o => o.Name == "student");
-            var token = GenerateToken(student.Email, new List<Role> { studentRole });
+            var token = GenerateToken(userData, new List<Role> { studentRole });
 
             return new AuthResponse {  Token= token };
         }
@@ -137,7 +154,7 @@ namespace GradingSystemBackend.Services
             }
         }
 
-        public string GenerateToken(string email, List<Role> roles)
+        public string GenerateToken(UserData userData, List<Role> roles)
         {
             string jti = Guid.NewGuid().ToString();
             var tokenHandler = new JwtSecurityTokenHandler();
@@ -145,7 +162,7 @@ namespace GradingSystemBackend.Services
 
             var claims = new List<Claim>
             {
-                new (ClaimTypes.Name, email),
+                new ("userData", JsonConvert.SerializeObject(userData, Formatting.Indented)),
                 new (JwtRegisteredClaimNames.Jti, jti)
             };
 
@@ -154,7 +171,7 @@ namespace GradingSystemBackend.Services
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(claims.ToArray()),
-                Expires = DateTime.Now.AddMinutes(3),
+                Expires = DateTime.Now.AddMinutes(100),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(tokenKey), SecurityAlgorithms.HmacSha256)
             };
 

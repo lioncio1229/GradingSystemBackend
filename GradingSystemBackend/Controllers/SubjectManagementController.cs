@@ -1,10 +1,12 @@
 ﻿using GradingSystemBackend.DTOs.Request;
 using GradingSystemBackend.DTOs.Response;
 using GradingSystemBackend.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GradingSystemBackend.Controllers
 {
+    [Authorize(Roles = "admin")]
     [ApiController]
     [Route("api/v1/subjects")]
     public class SubjectManagementController : ControllerBase
