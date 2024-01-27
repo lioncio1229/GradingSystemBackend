@@ -24,5 +24,13 @@ namespace GradingSystemBackend.Controllers
             var response = await _gradeManagementServices.UpdateGrades(id, gradesUpdateDTO);
             return Ok(response);
         }
+
+        [HttpGet("subject/{subjectId}")]
+        [ProducesResponseType<IEnumerable<StudentGradeResponse>>(StatusCodes.Status200OK)]
+        public IActionResult GetStudentGrades(Guid subjectId)
+        {
+            var response = _gradeManagementServices.GetStudentGrades(subjectId);
+            return Ok(response);
+        }
     }
 }

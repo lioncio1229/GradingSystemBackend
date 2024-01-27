@@ -4,6 +4,7 @@ using GradingSystemBackend.DTOs.Response;
 using GradingSystemBackend.Exceptions;
 using GradingSystemBackend.Model;
 using GradingSystemBackend.Repositories;
+using Microsoft.EntityFrameworkCore;
 
 namespace GradingSystemBackend.Services
 {
@@ -42,6 +43,12 @@ namespace GradingSystemBackend.Services
                 Success = true,
                 Message = "Grade Updated"
             };
+        }
+
+        public IEnumerable<StudentGradeResponse> GetStudentGrades(Guid subjectId)
+        {
+            var grades = _unitOfWork.GradeRepository.Query(o => o.SubjectId == subjectId, o => o.Student);
+            return _mapper.Map <IEnumerable<StudentGradeResponse>>(grades.ToList());
         }
     }
 }
