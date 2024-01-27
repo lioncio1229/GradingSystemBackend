@@ -47,7 +47,8 @@ namespace GradingSystemBackend.Services
             return new DefaultResponse
             {
                 Message = "New Student Created",
-                Success = true
+                Success = true,
+                Data = student.Id
             };
         }
 

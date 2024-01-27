@@ -34,7 +34,6 @@ namespace GradingSystemBackend.Services
             _jwtSettings = options.Value;
             _contextAccessor = contextAccessor;
             _studentServices = studentServices;
-
         }
 
         public async Task<AuthResponse> RegisterUser(UserRegistrationDTO credentials)
@@ -83,6 +82,7 @@ namespace GradingSystemBackend.Services
             var studentRole = await _unitOfWork.RoleRepository.Get(o => o.Name == "student");
             var userData = new UserData
             {
+                Id = (string)response.Data,
                 Email = studentDTO.Email,
                 UserName = "",
                 FirstName = studentDTO.FirstName,
@@ -100,6 +100,7 @@ namespace GradingSystemBackend.Services
 
             var userData = new UserData
             {
+                Id = student.Id.ToString(),
                 Email = student.Email,
                 UserName = "",
                 FirstName = student.FirstName,
