@@ -9,6 +9,7 @@
         public int Q4 { get; set; }
         public int Average { get; set; }
         public string Remarks { get; set; }
-        public StudentResponse Student { get; set; }
+        public string FullName { get; set; }
+
     }
 }

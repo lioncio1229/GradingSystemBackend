@@ -30,7 +30,19 @@ namespace GradingSystemBackend.Configurations
             CreateMap<Strand, StrandResponse>();
             CreateMap<YearLevel, YearLevelResponse>();
 
-            CreateMap<Grade, StudentGradeResponse>();
+            CreateMap<Grade, StudentGradeResponse>()
+                .ForMember(dest => dest.FullName, o => o.MapFrom(g => GetFullName(g.Student)));
         }
-    }
+
+        private string GetFullName(Student student)
+        {
+            var data = new List<string>
+            {
+                student.FirstName,
+                student.LastName,
+                student.Sufix
+            };
+                return string.Join(" ", data);
+            }
+        }
 }
