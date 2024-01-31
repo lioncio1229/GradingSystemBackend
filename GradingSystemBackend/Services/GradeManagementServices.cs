@@ -50,5 +50,11 @@ namespace GradingSystemBackend.Services
             var grades = _unitOfWork.GradeRepository.Query(o => o.SubjectId == subjectId, o => o.Student);
             return _mapper.Map <IEnumerable<StudentGradeResponse>>(grades.ToList());
         }
+
+        public IEnumerable<StudentGradeResponse> GetGradesByStudentId(Guid studentId)
+        {
+            var grades = _unitOfWork.GradeRepository.Query(o => o.StudentId == studentId, o => o.Student, o => o.Subject, o => o.Subject.Faculty);
+            return _mapper.Map<IEnumerable<StudentGradeResponse>>(grades.ToList());
+        }
     }
 }

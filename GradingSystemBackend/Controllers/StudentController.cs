@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace GradingSystemBackend.Controllers
 {
-    [Authorize(Roles = "admin")]
     [ApiController]
     [Route("api/v1/students")]
     public class StudentController : ControllerBase
@@ -19,6 +18,7 @@ namespace GradingSystemBackend.Controllers
             _studentServices = studentServices;
         }
 
+        [Authorize(Roles = "admin")]
         [HttpPost]
         [ProducesResponseType<DefaultResponse>(StatusCodes.Status200OK)]
         public async Task<IActionResult> AddStudent(StudentDTO studentDTO)
@@ -27,6 +27,7 @@ namespace GradingSystemBackend.Controllers
             return Ok(response);
         }
 
+        [Authorize(Roles = "admin")]
         [HttpPut("{id}")]
         [ProducesResponseType<DefaultResponse>(StatusCodes.Status200OK)]
         [ProducesResponseType<DefaultExceptionResponse>(StatusCodes.Status404NotFound)]
@@ -53,6 +54,7 @@ namespace GradingSystemBackend.Controllers
             return Ok(response);
         }
 
+        [Authorize(Roles = "admin")]
         [HttpDelete("{id}")]
         [ProducesResponseType<DefaultResponse>(StatusCodes.Status200OK)]
         [ProducesResponseType<DefaultExceptionResponse>(StatusCodes.Status404NotFound)]

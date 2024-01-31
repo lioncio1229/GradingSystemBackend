@@ -48,7 +48,7 @@ namespace GradingSystemBackend.Services
             {
                 Message = "New Student Created",
                 Success = true,
-                Data = student.Id
+                Data = student.Id.ToString()
             };
         }
 

@@ -7,5 +7,6 @@ namespace GradingSystemBackend.Services
     {
         Task<DefaultResponse> UpdateGrades(Guid id, GradesUpdateDTO gradeUpdateDTO);
         IEnumerable<StudentGradeResponse> GetStudentGrades(Guid subjectId);
+        IEnumerable<StudentGradeResponse> GetGradesByStudentId(Guid studentId);
     }
 }

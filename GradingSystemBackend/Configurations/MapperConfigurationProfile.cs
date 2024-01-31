@@ -31,7 +31,10 @@ namespace GradingSystemBackend.Configurations
             CreateMap<YearLevel, YearLevelResponse>();
 
             CreateMap<Grade, StudentGradeResponse>()
-                .ForMember(dest => dest.FullName, o => o.MapFrom(g => GetFullName(g.Student)));
+                .ForMember(dest => dest.FullName, o => o.MapFrom(g => GetFullName(g.Student)))
+                .ForMember(dest => dest.SubjectCode, o => o.MapFrom(s => s.Subject.Code))
+                .ForMember(dest => dest.SubjectDescription, o => o.MapFrom(s => s.Subject.Name))
+                .ForMember(dest => dest.FacultyName, o => o.MapFrom(f => GetFacultyFullName(f.Subject.Faculty)));
         }
 
         private string GetFullName(Student student)
@@ -42,7 +45,17 @@ namespace GradingSystemBackend.Configurations
                 student.LastName,
                 student.Sufix
             };
-                return string.Join(" ", data);
-            }
+            return string.Join(" ", data);
         }
+
+        private string GetFacultyFullName(User faculty)
+        {
+            var data = new List<string>
+            {
+                faculty.FirstName,
+                faculty.LastName,
+            };
+            return string.Join(" ", data);
+        }
+    }
 }

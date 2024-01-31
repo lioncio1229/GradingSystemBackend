@@ -2,6 +2,7 @@
 using GradingSystemBackend.DTOs.Response;
 using GradingSystemBackend.Exceptions;
 using GradingSystemBackend.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GradingSystemBackend.Controllers
@@ -16,6 +17,7 @@ namespace GradingSystemBackend.Controllers
             _gradeManagementServices = gradeManagementServices;
         }
 
+        [Authorize(Roles = "admin")]
         [HttpPut("{id}")]
         [ProducesResponseType<DefaultResponse>(StatusCodes.Status200OK)]
         [ProducesResponseType<DefaultExceptionResponse>(StatusCodes.Status404NotFound)]
@@ -30,6 +32,14 @@ namespace GradingSystemBackend.Controllers
         public IActionResult GetStudentGrades(Guid subjectId)
         {
             var response = _gradeManagementServices.GetStudentGrades(subjectId);
+            return Ok(response);
+        }
+
+        [HttpGet("students/{studentId}")]
+        [ProducesResponseType<IEnumerable<StudentGradeResponse>>(StatusCodes.Status200OK)]
+        public IActionResult GetGradesByStudentId(Guid studentId)
+        {
+            var response = _gradeManagementServices.GetGradesByStudentId(studentId);
             return Ok(response);
         }
     }

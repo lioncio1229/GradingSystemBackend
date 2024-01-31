@@ -10,6 +10,8 @@
         public int Average { get; set; }
         public string Remarks { get; set; }
         public string FullName { get; set; }
-
+        public string SubjectCode { get; set; }
+        public string SubjectDescription { get; set; }
+        public string FacultyName { get; set; }
     }
 }
